@@ -1,14 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-    <p>Hello</p>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue App</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8"></script>
+</head>
+<body>
+  <div id ="app">
+  <header>
+  <h1>Online Classes</h1>
+  <div>
+    <button>
+      {{ cartItemCount }}
+      <span class="fa-solid fa-cart-shopping"></span> Checkout
+    </button>
+  </div>
+  </header>
+  <div>
+    <h2>Lesson List</h2>
+    <div id="lesson-list">
+      <h2>{{ lesson.subject }}</h2>
+      <p>Location: {{ lesson.location }}</p>
+      <p>Price: ${{ lesson.price }}</p>
+      <p>Spaces: {{ lesson.spaces }}</p>
+      <button v-on:click="addToCart(lesson)" :disabled="lesson.spaces <= 0">Add to Cart</button>
+    </div>
+  </div>
+  </div>
+
+  <script src="app.js"></script> <!-- Reference your external JavaScript file -->
+</body>
 </html>
