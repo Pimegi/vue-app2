@@ -6,7 +6,7 @@ export const lessons = [
         location: "Texas",
         price: 1887,
         spaces: 5,
-        icon: "graduation-cap", // Relative path to the local image
+        icon: "fa-solid fa-graduation-cap", // Relative path to the local image
     },
 
     {
@@ -15,7 +15,7 @@ export const lessons = [
         location: "Florida",
         price: 482,
         spaces: 9,
-        icon: "graduation-cap",
+        icon: "fa-solid fa-graduation-cap",
     },
 
     {
@@ -24,7 +24,7 @@ export const lessons = [
         location: "Ohio",
         price: 1248,
         spaces: 7,
-        icon: "graduation-cap",
+        icon: "fa-solid fa-graduation-cap",
     },
 
     {
@@ -33,7 +33,7 @@ export const lessons = [
         location: "Alaska",
         price: 982,
         spaces: 8,
-        icon: "graduation-cap",
+        icon: "fa-solid fa-graduation-cap",
     },
 
     {
@@ -42,7 +42,7 @@ export const lessons = [
         location: "New Jersey",
         price: 1064,
         spaces: 11,
-        icon: "graduation-cap",
+        icon: "fa-solid fa-graduation-cap",
     },
 
     {
@@ -51,7 +51,7 @@ export const lessons = [
         location: "New York",
         price: 1000,
         spaces: 15,
-        icon: "graduation-cap",
+        icon: "fa-solid fa-graduation-cap",
     },
 
     {
@@ -60,7 +60,7 @@ export const lessons = [
         location: "Arizona",
         price: 1268,
         spaces: 6,
-        icon: "graduation-cap",
+        icon: "fa-solid fa-graduation-cap",
     },
 
     {
@@ -69,7 +69,7 @@ export const lessons = [
         location: "Alabama",
         price: 1000,
         spaces: 13,
-        icon: "graduation-cap",
+        icon: "fa-solid fa-graduation-cap",
     },
 
     {
@@ -78,7 +78,7 @@ export const lessons = [
         location: "Missouri",
         price: 705,
         spaces: 22,
-        icon: "graduation-cap",
+        icon: "fa-solid fa-graduation-cap",
     },
 
     {
@@ -87,7 +87,7 @@ export const lessons = [
         location: "Connecticut",
         price: 1407,
         spaces: 19,
-        icon: "graduation-cap",
+        icon: "fa-solid fa-graduation-cap",
     },
 
 ];

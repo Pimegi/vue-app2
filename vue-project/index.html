@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <link rel="icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="src/styles.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vue App</title>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8"></script>
@@ -20,16 +21,28 @@
   </div>
   </header>
   <div>
-    <h2>Lesson List</h2>
-    <div id="lesson-list">
-      <h2>{{ lesson.subject }}</h2>
-      <p>Location: {{ lesson.location }}</p>
-      <p>Price: ${{ lesson.price }}</p>
-      <p>Spaces: {{ lesson.spaces }}</p>
-      <button v-on:click="addToCart(lesson)" :disabled="lesson.spaces <= 0">Add to Cart</button>
-    </div>
+    <h1>Lesson List</h1>
+    <div class="lessons-grid">
+      <div class="lessons-card" v-for="lesson in lessons" :key="lesson.id">
+        <div class="lesson-content">
+          <div class="text">
+            <h2>{{ lesson.subject }}</h2>
+            <p>Location: {{ lesson.location }}</p>
+            <p>Price: ${{ lesson.price }}</p>
+            <p>Spaces: {{ lesson.spaces }}</p>
+            <button v-on:click="addToCart(lesson)" :disabled="lesson.spaces <= 0">Add to Cart</button>
+          </div>
+          <div class="image">
+            <div class="image_size">
+            <i :class="lesson.icon"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>   
   </div>
   </div>
-  <script src="src/main.js" type="module"></script> <!-- Reference your external JavaScript file -->
+
+  <script src="src/main.js" type="module"></script>
 </body>
 </html>

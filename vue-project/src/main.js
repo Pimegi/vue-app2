@@ -1,14 +1,11 @@
+import { lessons } from "./Lessons.js"; // Update the path to your lessons.js file accordingly
+
+
 new Vue({
     el: '#app',
     data: {
-      lesson: {
-        id: 1,
-        subject: "Maths",
-        location: "New York",
-        price: 100,
-        spaces: 5
-      },
-      cart: []
+      cart: [],
+      lessons: lessons
     },
     methods: {
       addToCart(lesson) {

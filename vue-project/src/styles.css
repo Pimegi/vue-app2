@@ -1,0 +1,78 @@
+/* Header styles */
+header {
+    background-color: #333; /* Background color */
+    color: #fff; /* Text color */
+    padding: 10px; /* Padding around the content */
+    display: flex;
+    justify-content: space-between; /* Align items to the left and right within the header */
+  }
+  
+  /* Logo or Title in the header */
+  header h1 {
+    margin: 0; /* Remove default margin for h1 */
+    font-size: 24px; /* Adjust font size */
+  }
+  
+  /* Checkout button styles */
+  .checkout-button {
+    display: flex;
+    align-items: center; /* Center items vertically */
+  }
+  
+  /* Cart icon (assuming you have a cart icon) */
+  .checkout-button i {
+    margin-right: 5px; /* Add some space between the icon and text */
+  }
+  
+
+
+   /* List of Items  */
+
+  .lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(50%, 1fr));
+    grid-gap: 20px;
+  }
+  
+  .lessons-card {
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .lesson-content {
+    display: flex; /* Use flexbox to arrange text and image side by side */
+    align-items: center; /* Vertically center content */
+    justify-content: space-between; /* Create space between text and image */
+  }
+  
+  .text {
+    flex: 1; /* Allow text to take available space */
+    padding: 0 10px; /* Add padding to text for spacing */
+  }
+  
+  .image {
+    width: 30%; /* Set a fixed width for the image (adjust as needed) */
+    margin-right: 10px; /* Add margin between text and image */
+    object-fit: cover;
+  }
+  
+  .image_size{
+    width: 100px;
+    height: 100px;
+  
+  }
+  
+
+  /* Body/background  */
+
+  body {
+    background-color: #333;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }

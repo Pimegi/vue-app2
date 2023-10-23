@@ -4,10 +4,12 @@
   <meta charset="UTF-8">
   <link rel="icon" href="/vue-app/favicon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vue App</title>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8"></script>
-  <script type="module" crossorigin src="/vue-app/assets/index-f0a50ad5.js"></script>
+  <script type="module" crossorigin src="/vue-app/assets/index-0fed6af2.js"></script>
+  <link rel="stylesheet" href="/vue-app/assets/index-49a62a28.css">
 </head>
 <body>
   <div id ="app">
@@ -21,16 +23,28 @@
   </div>
   </header>
   <div>
-    <h2>Lesson List</h2>
-    <div id="lesson-list">
-      <h2>{{ lesson.subject }}</h2>
-      <p>Location: {{ lesson.location }}</p>
-      <p>Price: ${{ lesson.price }}</p>
-      <p>Spaces: {{ lesson.spaces }}</p>
-      <button v-on:click="addToCart(lesson)" :disabled="lesson.spaces <= 0">Add to Cart</button>
-    </div>
+    <h1>Lesson List</h1>
+    <div class="lessons-grid">
+      <div class="lessons-card" v-for="lesson in lessons" :key="lesson.id">
+        <div class="lesson-content">
+          <div class="text">
+            <h2>{{ lesson.subject }}</h2>
+            <p>Location: {{ lesson.location }}</p>
+            <p>Price: ${{ lesson.price }}</p>
+            <p>Spaces: {{ lesson.spaces }}</p>
+            <button v-on:click="addToCart(lesson)" :disabled="lesson.spaces <= 0">Add to Cart</button>
+          </div>
+          <div class="image">
+            <div class="image_size">
+            <i :class="lesson.icon"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>   
   </div>
   </div>
-   <!-- Reference your external JavaScript file -->
+
+  
 </body>
 </html>
