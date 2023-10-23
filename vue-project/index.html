@@ -1,46 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="src/styles.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vue App</title>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8"></script>
-</head>
-<body>
-  <div id ="app">
-  <header>
-  <h1>Online Classes</h1>
-  <div>
-    <button>
-      {{ cartItemCount }}
-      <span class="fa-solid fa-cart-shopping"></span> Checkout
-    </button>
-  </div>
-  </header>
-  <div>
-    <h1>Lesson List</h1>
-    <div class="lessons-grid">
-      <div class="lessons-card" v-for="lesson in lessons" :key="lesson.id">
-        <div class="lesson-content">
-          <div class="text">
-            <h2>{{ lesson.subject }}</h2>
-            <p>Location: {{ lesson.location }}</p>
-            <p>Price: ${{ lesson.price }}</p>
-            <p>Spaces: {{ lesson.spaces }}</p>
-            <button v-on:click="addToCart(lesson)" :disabled="lesson.spaces <= 0">Add to Cart</button>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="src/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue App</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8"></script>
+  </head>
+  <body>
+    <div id ="app">
+    <div v-if="showProduct">
+        <header>
+          <h1>Online Classes</h1>
+          <div>
+              <button v-on:click="showCheckoutpage" :disabled="this.cart.length <= 0">
+              {{ cartItemCount }}
+              <span class="fa-solid fa-cart-shopping"></span> Checkout
+              </button>
           </div>
-          <div class="image">
-            <i :class="lesson.icon"></i>
+        </header>
+        <div>
+          <h1>Lesson List</h1>
+          <div>
+            <label for="sort">Sort by:</label>
+            <select v-model="sortAttribute" @change="sortLessons">
+              <option value="subject">Subject</option>
+              <option value="location">Location</option>
+              <option value="price">Price</option>
+              <option value="spaces">Spaces</option>
+            </select>
+            <label for="order">Order:</label>
+            <select v-model="sortOrder" @change="sortLessons">
+              <option value="asc">Ascending</option>
+              <option value="desc">Descending</option>
+            </select>
+          </div>
+          <div class="lessons-grid">
+              <div class="lessons-card" v-for="lesson in lessons" :key="lesson.id">
+                <div class="lesson-content">
+                    <div class="text">
+                      <h2>{{ lesson.subject }}</h2>
+                      <p>Location: {{ lesson.location }}</p>
+                      <p>Price: ${{ lesson.price }}</p>
+                      <p>Spaces: {{ lesson.spaces }}</p>
+                      <button v-on:click="addToCart(lesson)" :disabled="lesson.spaces <= 0">Add to Cart</button>
+                    </div>
+                    <div class="image">
+                      <i :class="lesson.icon"></i>
+                    </div>
+                </div>
+              </div>
           </div>
         </div>
-      </div>
-    </div>   
-  </div>
-  </div>
-
-  <script src="src/main.js" type="module"></script>
-</body>
+    </div>
+    <div v-else>
+    <header>
+        <h1>Online Classes</h1>
+        <div>
+          <button v-on:click="showCheckoutpage">
+          {{ cartItemCount }}
+          <span class="fa-solid fa-cart-shopping"></span> Checkout
+          </button>
+        </div>
+    </header>
+    <div>
+        <h1>Shopping Cart</h1>
+        <div class="lessons-grid">
+          <div class="lessons-card" v-for="item in cart" :key="item.id">
+            <div class="lesson-content">
+              <div class="text">
+                <!-- <h2>{{ lessonId }}</h2> -->
+                <h2>{{ item.subject }}</h2>
+                <p>Location: {{ item.location }}</p>
+                <p>Price: ${{ item.price }}</p>
+                <button v-on:click="removeFromCart(item)">Remove Item</button>
+              </div>
+              <div class="image">
+                <i :class="item.icon"></i>
+              </div>
+            </div>
+          </div>          
+        </div>
+    </div>
+    <script src="src/main.js" type="module"></script>
+  </body>
 </html>
