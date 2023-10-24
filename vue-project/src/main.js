@@ -20,6 +20,8 @@ new Vue({
       },
       orderSubmitted: false,
       confirmationMessage: '',
+      searchQuery: '',
+    //   filteredLessons: [],
     },
     methods: {
         addToCart(lesson) {
@@ -69,27 +71,46 @@ new Vue({
                 this.confirmationMessage = 'Order has been submitted!';
                 
             } else {
-                this.validationErrors.name = 'Invalid name';
-                this.validationErrors.number = 'Invalid number';
+                this.validationErrors.name = 'No Special Characters or numbers allowed';
+                this.validationErrors.number = 'Only digits are allowed';
             }
           },
-        isNameValid() {
-        const regex = /^[a-zA-Z]+$/;
-        if (!this.formData.fname || !regex.test(this.formData.fname)) {
-            this.validationErrors.name = 'Invalid name';
-            return false;
-        }
-        this.validationErrors.name = '';
-        return true;
+          isNameValid() {
+            const regex = /^[a-zA-Z]+$/;
+            const name = this.formData.fname.trim(); // Remove leading/trailing white spaces
+            if (name) {
+                if (!regex.test(name)) {
+                    this.validationErrors.name = 'No special characters or numbers allowed';
+                    return false;
+                }
+            } else {
+                this.validationErrors.name = 'Name must be provided';
+                return false;
+            }
+            this.validationErrors.name = '';
+            return true;
         },
+        
         isPhoneValid() {
-        const regex = /^\d+$/;
-        if (!this.formData.phone_no || !regex.test(this.formData.phone_no)) {
-            this.validationErrors.number = 'Invalid number';
-            return false;
-        }
-        this.validationErrors.number = '';
-        return true;
+            const regex = /^\d+$/;
+            const phone = this.formData.phone_no.trim(); // Remove leading/trailing white spaces
+            if (phone) {
+                if (!regex.test(phone)) {
+                    this.validationErrors.number = 'Only digits are allowed';
+                    return false;
+                }
+            } else {
+                this.validationErrors.number = 'Phone number must be provided';
+                return false;
+            }
+            this.validationErrors.number = '';
+            return true;
+        },
+        
+
+        searchLessons() {
+            // No need for explicit code here since it's handled by the computed property.
+            // The filteredLessons computed property automatically updates when the searchQuery changes.
         },
     },  
     computed:{
@@ -98,7 +119,22 @@ new Vue({
         },
         isFormValid() {
             return this.isNameValid() && this.isPhoneValid();
-          },
+        },
+
+        filteredLessons() {
+            const query = this.searchQuery.toLowerCase(); // Convert the query to lowercase for case-insensitive search
+        
+            if (query.length === 0) {
+              return []; // Return an empty array initially when the search query is empty
+            }
+        
+            return this.lessons.filter((lesson) => {
+              const title = lesson.subject.toLowerCase();
+              const location = lesson.location.toLowerCase();
+        
+              return title.includes(query) || location.includes(query);
+            });
+        },
     }
   });
   

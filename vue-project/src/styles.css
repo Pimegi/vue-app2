@@ -73,15 +73,36 @@ header {
     height: 100vh;
   }
 
-  .error-message {
-    color: red;
-    font-size: 12px;
-    margin-top: 5px;
-    display: block;
+  .error-message:empty{
+    display: none;
   }
-  .confirmation-message {
-    color: green;
-    font-size: 16px;
+
+  .error-message:not(:empty) {
+    font-size: 14px;
+    margin-top: 5px;
+    color: red;
+}
+
+  .confirmation-message:empty {
+     display: none;
+  }
+  .confirmation-message:not(:empty) {
+    font-size: 18px;
     margin-top: 10px;
-    display: block;
-  }  
+    color: green;
+} 
+  
+  .search-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(50%, 10fr));
+    grid-gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .search-card {
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  

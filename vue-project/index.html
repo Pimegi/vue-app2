@@ -15,6 +15,16 @@
         <header>
           <h1>Online Classes</h1>
           <div>
+            <label name="search">Search:</label>
+            <input type="text" id="search" v-model="searchQuery">
+          </div>
+          <div class="search-grid">
+            <div class="search-card" v-for="lesson in filteredLessons">
+              <h3>{{ lesson.subject }}</h3>
+              <p>Location: {{ lesson.location }}</p>
+            </div>
+          </div>
+          <div>
               <button v-on:click="showCheckoutpage" :disabled="this.cart.length <= 0">
               {{ cartItemCount }}
               <span class="fa-solid fa-cart-shopping"></span> Checkout
