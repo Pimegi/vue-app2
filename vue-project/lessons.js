@@ -1,4 +1,4 @@
-export const lessons = [
+let lessons = [
 
     {
         id:1,
