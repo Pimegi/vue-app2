@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- <link rel="icon" href="/favicon.ico"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue App</title>
+    <script src="lessons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div v-if="showProduct">
+            <header>
+                <h1>Online Classes</h1>
+                <div>
+                    <label for="search">Search:</label>
+                    <input type="text" id="search" v-model="searchQuery">
+                </div>
+                <div class="search-grid">
+                    <div class="search-card" v-for="lesson in filteredLessons">
+                        <h3>{{ lesson.subject }}</h3>
+                        <p>Location: {{ lesson.location }}</p>
+                    </div>
+                </div>
+                <div>
+                    <button v-on:click="showCheckoutpage" :disabled="this.cart.length <= 0">
+                        {{ cartItemCount }}
+                        <span class="fa-solid fa-cart-shopping"></span> Checkout
+                    </button>
+                </div>
+            </header>
+            <div>
+                <h1>Lesson List</h1>
+                <div>
+                    <label for="sort">Sort by:</label>
+                    <select v-model="sortAttribute" @change="sortLessons">
+                        <option value="subject">Subject</option>
+                        <option value="location">Location</option>
+                        <option value="price">Price</option>
+                        <option value="spaces">Spaces</option>
+                    </select>
+                    <label for="order">Order:</label>
+                    <select v-model="sortOrder" @change="sortLessons">
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                </div>
+                <div class="lessons-grid">
+                    <div class="lessons-card" v-for="lesson in lessons">
+                        <div class="lesson-content">
+                            <div class="text">
+                                <h2>{{ lesson.subject }}</h2>
+                                <p>Location: {{ lesson.location }}</p>
+                                <p>Price: ${{ lesson.price }}</p>
+                                <p>Spaces: {{ lesson.spaces }}</p>
+                                <button v-on:click="addToCart(lesson)" :disabled="lesson.spaces <= 0">Add to
+                                    Cart</button>
+                            </div>
+                            <div class="image">
+                                <i :class="lesson.icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-else>
+            <header>
+                <h1>Online Classes</h1>
+                <div>
+                    <button v-on:click="showCheckoutpage">
+                        {{ cartItemCount }}
+                        <span class="fa-solid fa-cart-shopping"></span> Checkout
+                    </button>
+                </div>
+            </header>
+            <div>
+                <h1>Shopping Cart</h1>
+                <div class="lessons-grid">
+                    <div class="lessons-card" v-for="item in cart">
+                        <div class="lesson-content">
+                            <div class="text">
+                                <!-- <h2>{{ lessonId }}</h2> -->
+                                <h2>{{ item.subject }}</h2>
+                                <p>Location: {{ item.location }}</p>
+                                <p>Price: ${{ item.price }}</p>
+                                <button v-on:click="removeFromCart(item)">Remove Item</button>
+                            </div>
+                            <div class="image">
+                                <i :class="item.icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h2>Checkout</h2>
+                            <form name="myForm" method="post">
+                                <div class="form-group">
+                                    <label for="fname">Name:</label>
+                                    <input type="text" id="fname" v-model="formData.fname">
+                                    <div class="error-message" v-if="validationErrors.name">{{ validationErrors.name }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phone_no">Phone Number:</label>
+                                    <input type="text" id="phone_no" v-model="formData.phone_no">
+                                    <div class="error-message" v-if="validationErrors.number">{{ validationErrors.number
+                                        }}</div>
+                                </div>
+
+                                <input type="button" :disabled="!isFormValid" value="Checkout" @click="submitForm()">
+                                <div class="confirmation-message" v-if="orderSubmitted">{{ confirmationMessage }}</div>
+                            </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let webstore = new Vue({
+            el: '#app',
+            data: {
+                showProduct: true,
+                cart: [],
+                lessons: lessons,
+                selectedItem: null,
+                sortAttribute: 'subject',
+                sortOrder: 'asc',
+                formData: {
+                    fname: '',
+                    phone_no: '',
+                },
+                validationErrors: {
+                    name: '',
+                    number: '',
+                },
+                orderSubmitted: false,
+                confirmationMessage: '',
+                searchQuery: '',
+                //   filteredLessons: [],
+            },
+            methods: {
+                addToCart(lesson) {
+                    if (lesson.spaces > 0) {
+                        //   const lessonCopy = { ...lesson };   // fixed issues with adding multiple of the same lesson //
+                        lesson.spaces--;
+                        this.cart.push(lesson);
+                    }
+                },
+                removeFromCart(lesson) {
+                    // Find the index of the lesson in the cart array
+                    const lessonIndex = this.cart.indexOf(lesson);
+
+                    // Check if the lesson is in the cart
+                    if (lessonIndex !== -1) {
+                        // Remove the lesson from the cart
+                        this.cart.splice(lessonIndex, 1);
+
+                        // Increase the spaces of the lesson in the lessons array
+                        const lessonInList = this.lessons.find((item) => item.id === lesson.id);
+                        if (lessonInList) {
+                            lessonInList.spaces++;
+                        }
+                    }
+                },
+                getLessonById(lessonId) {
+                    return this.lessons.find(lesson => lesson.id === lessonId);
+                },
+
+                showCheckoutpage() {    //reverts the showProduct value to false if it's true //
+                    this.showProduct = this.showProduct ? false : true
+                },
+
+                sortLessons() {
+                    const attribute = this.sortAttribute;
+                    const order = this.sortOrder === 'asc' ? 1 : -1;
+
+                    this.lessons.sort((a, b) => {
+                        if (a[attribute] < b[attribute]) return -1 * order;
+                        if (a[attribute] > b[attribute]) return 1 * order;
+                        return 0;
+                    });
+                },
+                submitForm() {
+                    if (this.isFormValid) {
+                        this.orderSubmitted = true;
+                        this.confirmationMessage = 'Order has been submitted!';
+
+                    } else {
+                        this.validationErrors.name = 'No Special Characters or numbers allowed';
+                        this.validationErrors.number = 'Only digits are allowed';
+                    }
+                },
+                isNameValid() {
+                    const regex = /^[a-zA-Z]+$/;
+                    const name = this.formData.fname.trim(); // Remove leading/trailing white spaces
+                    if (name) {
+                        if (!regex.test(name)) {
+                            this.validationErrors.name = 'No special characters or numbers allowed';
+                            return false;
+                        }
+                    } else {
+                        this.validationErrors.name = 'Name must be provided';
+                        return false;
+                    }
+                    this.validationErrors.name = '';
+                    return true;
+                },
+
+                isPhoneValid() {
+                    const regex = /^\d+$/;
+                    const phone = this.formData.phone_no.trim(); // Remove leading/trailing white spaces
+                    if (phone) {
+                        if (!regex.test(phone)) {
+                            this.validationErrors.number = 'Only digits are allowed';
+                            return false;
+                        }
+                    } else {
+                        this.validationErrors.number = 'Phone number must be provided';
+                        return false;
+                    }
+                    this.validationErrors.number = '';
+                    return true;
+                },
+
+
+                searchLessons() {
+                    // No need for explicit code here since it's handled by the computed property.
+                    // The filteredLessons computed property automatically updates when the searchQuery changes.
+                },
+            },
+            computed: {
+                cartItemCount: function () {
+                    return this.cart.length;
+                },
+                isFormValid() {
+                    return this.isNameValid() && this.isPhoneValid();
+                },
+
+                filteredLessons() {
+                    const query = this.searchQuery.toLowerCase(); // Convert the query to lowercase for case-insensitive search
+
+                    if (query.length === 0) {
+                        return []; // Return an empty array initially when the search query is empty
+                    }
+
+                    return this.lessons.filter((lesson) => {
+                        const title = lesson.subject.toLowerCase();
+                        const location = lesson.location.toLowerCase();
+
+                        return title.includes(query) || location.includes(query);
+                    });
+                },
+            }
+        });    
+    </script>
+</body>
+
+</html>
