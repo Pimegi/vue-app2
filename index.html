@@ -21,10 +21,7 @@
                     <input type="text" id="search" v-model="searchQuery">
                 </div>
                 <div class="search-grid">
-                    <div class="search-card" v-for="lesson in filteredLessons">
-                        <h3>{{ lesson.subject }}</h3>
-                        <p>Location: {{ lesson.location }}</p>
-                    </div>
+                    <div class="search-card" v-for="lesson in filteredLessons"></div>
                 </div>
                 <div>
                     <button v-on:click="showCheckoutpage" :disabled="this.cart.length <= 0">
@@ -50,7 +47,7 @@
                     </select>
                 </div>
                 <div class="lessons-grid">
-                    <div class="lessons-card" v-for="lesson in lessons">
+                    <div class="lessons-card" v-for="lesson in filteredLessons">
                         <div class="lesson-content">
                             <div class="text">
                                 <h2>{{ lesson.subject }}</h2>
@@ -240,12 +237,11 @@
                 isFormValid() {
                     return this.isNameValid() && this.isPhoneValid();
                 },
-
                 filteredLessons() {
                     const query = this.searchQuery.toLowerCase(); // Convert the query to lowercase for case-insensitive search
 
                     if (query.length === 0) {
-                        return []; // Return an empty array initially when the search query is empty
+                        return this.lessons; // Return the full list of lessons when there's no search query
                     }
 
                     return this.lessons.filter((lesson) => {
@@ -255,6 +251,7 @@
                         return title.includes(query) || location.includes(query);
                     });
                 },
+
             }
         });    
     </script>

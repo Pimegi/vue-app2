@@ -2,10 +2,10 @@ let lessons = [
 
     {
         id:1,
-        subject: "CS",
+        subject: "Computer Science",
         location: "Texas",
         price: 1887,
-        spaces: 5,
+        spaces: 6,
         icon: "fa-solid fa-graduation-cap", // Relative path to the local image
     },
 
