@@ -275,8 +275,12 @@
                         try {
                             // Iterate through each lesson in the cart
                             for (const lesson of this.cart) {
+
+                                // check if there is a lesson available //
+                                if (lesson.spaces > 0){
                                 // Update lesson spaces
                                 await this.updateLessonSpaces(lesson);
+                            }
                             }
                             // After updating all lessons, save the order
                             await this.saveOrder();
