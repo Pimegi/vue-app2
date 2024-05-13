@@ -55,7 +55,7 @@ header h1 {
 
 .image {
   width: 30%; /* Set a fixed width for the image (adjust as needed) */
-  margin-right: 10px; /* Add margin between text and image */
+  margin-right: 50px; /* Add margin between text and image */
   object-fit: cover;
   font-size: 5rem;
 }
