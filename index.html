@@ -84,7 +84,13 @@
                                 <h2>{{ item.subject }}</h2>
                                 <p>Location: {{ item.location }}</p>
                                 <p>Price: ${{ item.price }}</p>
-                                <p>Quantity: {{item.quantity}}</p>
+                                <div class="quantity-control">
+                                    <p>Quantity:
+                                    <button @click="decrementQuantity(item)">-</button>
+                                    <span>{{ item.quantity }}</span>
+                                    <button @click="incrementQuantity(item)">+</button>
+                                </p>
+                                </div>
                                 <button v-on:click="removeFromCart(item)">Remove Item</button>
                             </div>
                             <div class="image">
@@ -160,13 +166,45 @@
                         console.log("No available spaces for this lesson");
                     }
                 },
-                removeFromCart(lesson) {
-                    const lessonIndex = this.cart.indexOf(lesson);
+                // Method to decrement the quantity of a lesson in the cart
+                decrementQuantity(lesson) {
+                    const lessonIndex = this.cart.findIndex(item => item._id === lesson._id);
                     if (lessonIndex !== -1) {
-                        this.cart.splice(lessonIndex, 1);
-                        const lessonInList = this.cart.find(item => item.id === lesson.id);
+                        if (this.cart[lessonIndex].quantity > 1) {
+                            // Decrease the quantity if it's more than 1
+                            this.cart[lessonIndex].quantity--;
+                        } else {
+                            // Remove the item from the cart if the quantity is 1
+                            this.cart.splice(lessonIndex, 1);
+                        }
+                        // Increase the spaces since one item is removed
+                        const lessonInList = this.lessons.find(item => item._id === lesson._id);
                         if (lessonInList) {
                             lessonInList.spaces++;
+                        }
+                    }
+                },
+                // Method to increment the quantity of a lesson in the cart
+                incrementQuantity(lesson) {
+                    const lessonIndex = this.cart.findIndex(item => item._id === lesson._id);
+                    if (lessonIndex !== -1) {
+                        // Increment the quantity
+                        this.cart[lessonIndex].quantity++;
+                        // Decrease the spaces since one item is added
+                        const lessonInList = this.lessons.find(item => item._id === lesson._id);
+                        if (lessonInList && lessonInList.spaces > 0) {
+                            lessonInList.spaces--;
+                        }
+                    }
+                },
+                // Method to remove an item from the cart
+                removeFromCart(lesson) {
+                    const lessonIndex = this.cart.findIndex(item => item._id === lesson._id);
+                    if (lessonIndex !== -1) {
+                        this.cart.splice(lessonIndex, 1);
+                        const lessonInList = this.lessons.find(item => item._id === lesson._id);
+                        if (lessonInList) {
+                            lessonInList.spaces += lesson.quantity; // Add back the spaces
                         }
                     }
                 },
