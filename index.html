@@ -164,7 +164,7 @@
                     const lessonIndex = this.cart.indexOf(lesson);
                     if (lessonIndex !== -1) {
                         this.cart.splice(lessonIndex, 1);
-                        const lessonInList = this.lessons.find(item => item.id === lesson.id);
+                        const lessonInList = this.cart.find(item => item.id === lesson.id);
                         if (lessonInList) {
                             lessonInList.spaces++;
                         }
@@ -215,7 +215,7 @@
                 async fetchLessons() {
                     try {
                         // Make a fetch request to get lessons data
-                        const response = await fetch('http://localhost:3000/api/lessons');
+                        const response = await fetch('http://vueapp-env-1.eba-rz3pbgpi.eu-west-2.elasticbeanstalk.com/api/lessons');
                         const data = await response.json();
                         this.lessons = data; // Update lessons data
                     } catch (error) {
@@ -228,7 +228,7 @@
                         const lessonid = lesson._id;
 
                         //PUT request to update the lesson spaces
-                        const response = await fetch(`http://localhost:3000/api/lessons/update-spaces`, {
+                        const response = await fetch(`http://vueapp-env-1.eba-rz3pbgpi.eu-west-2.elasticbeanstalk.com/api/lessons/update-spaces`, {
                             method: 'PUT',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -247,7 +247,7 @@
                 },
                 saveOrder() {
                     if (this.cart && this.cart.length > 0) {
-                        fetch('http://localhost:3000/api/orders', {
+                        fetch('http://vueapp-env-1.eba-rz3pbgpi.eu-west-2.elasticbeanstalk.com/api/orders', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -294,7 +294,7 @@
                     }
                 },
                 searchLessons() {
-                    fetch(`http://localhost:3000/api/search?query=${this.searchQuery}`)
+                    fetch(`http://vueapp-env-1.eba-rz3pbgpi.eu-west-2.elasticbeanstalk.com/api/search?query=${this.searchQuery}`)
                         .then(response => response.json())
                         .then(data => {
                             this.lessons = data;
