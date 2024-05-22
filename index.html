@@ -234,7 +234,7 @@
                 },
                 async fetchLessons() {
                     try {
-                        const response = await fetch('http://localhost:3000/collection/lessons');
+                        const response = await fetch('https://express-app-6h4c.onrender.com/collection/lessons');
                         const data = await response.json();
                         this.lessons = data;
                     } catch (error) {
@@ -244,7 +244,7 @@
                 async updateLessonSpaces(lessons) {
                     try {
                         const updatePromises = lessons.map(lesson => {
-                            return fetch(`http://localhost:3000/collection/lessons/${lesson._id}`, {
+                            return fetch(`https://express-app-6h4c.onrender.com/collection/lessons/${lesson._id}`, {
                                 method: 'PUT',
                                 headers: {
                                     'Content-Type': 'application/json'
@@ -284,7 +284,7 @@
                 async saveOrder() {
                     if (this.cart && this.cart.length > 0) {
                         try {
-                            const response = await fetch('http://localhost:3000/collection/orders', {
+                            const response = await fetch('https://express-app-6h4c.onrender.com/collection/orders', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
